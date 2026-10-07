@@ -1,0 +1,65 @@
+name: Aggiorna prezzi e pubblica
+
+# Ogni mattina: scarica i prezzi dal Ministero (pubblicati verso le 8:45
+# ora italiana), li salva e ripubblica l'app. Due controlli (~9:30 e ~12:00)
+# nel caso il file esca in ritardo. Ad ogni modifica del codice (push) l'app
+# viene ripubblicata subito, senza riscaricare i prezzi.
+on:
+  schedule:
+    - cron: "30 7 * * *"
+    - cron: "0 10 * * *"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: aggiorna-e-pubblica
+  cancel-in-progress: false
+
+jobs:
+  aggiorna:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.pubblicazione.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        if: github.event_name != 'push'
+        with:
+          python-version: "3.13"
+      - name: Scarica e prepara i prezzi
+        if: github.event_name != 'push'
+        run: |
+          pip install requests
+          python scripts/aggiorna_dati.py
+      - name: Salva i dati aggiornati
+        if: github.event_name != 'push'
+        run: |
+          git config user.name "Lancetta (aggiornamento automatico)"
+          git config user.email "actions@github.com"
+          git add data/
+          # meta.json cambia sempre (ora di aggiornamento): salviamo solo se
+          # sono cambiati davvero i prezzi
+          if git diff --staged --quiet -- data/zone data/comuni.json; then
+            echo "Prezzi invariati, niente da salvare."
+            git reset -q
+            git checkout -- data/
+            exit 0
+          fi
+          git commit -m "Prezzi carburanti aggiornati"
+          for tentativo in 1 2 3; do
+            git pull --rebase && git push && break
+            sleep 5
+          done
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+      - id: pubblicazione
+        uses: actions/deploy-pages@v4
