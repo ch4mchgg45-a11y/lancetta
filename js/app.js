@@ -463,6 +463,22 @@ function apriAuto() {
   $("#chiudi").onclick = chiudiFoglio;
 }
 
+function apriRaggio() {
+  const attuale = stato.raggio[stato.carb];
+  apriFoglio(`
+    <h2>Quanto lontano cerchi?</h2>
+    <div class="indirizzo">Vale per ${CARBURANTI[stato.carb]}. Ogni carburante ricorda la sua distanza.</div>
+    ${RAGGI.map((r) => `
+      <button class="voce-auto ${r === attuale ? "scelta" : ""}" data-raggio="${r}" type="button">
+        <div class="info">Entro ${r} km</div>${r === attuale ? `<span class="spunta">✓</span>` : ""}
+      </button>`).join("")}
+    <button class="pulsante" id="chiudi" type="button">Chiudi</button>`);
+  $("#foglio").querySelectorAll("[data-raggio]").forEach((b) => {
+    b.onclick = () => { chiudiFoglio(); impostaRaggio(Number(b.dataset.raggio)); };
+  });
+  $("#chiudi").onclick = chiudiFoglio;
+}
+
 async function apriRicercaComune() {
   apriFoglio(`
     <h2>Cerca un comune</h2>
@@ -548,7 +564,7 @@ function aggiornaTestata() {
   pulsanteAuto.textContent = auto ? `${auto.nome} · ${auto.litri} ${UNITA[auto.carb]}` : stato.auto.length ? "Scegli auto" : "+ La mia auto";
   pulsanteAuto.classList.toggle("con-auto", !!auto);
   $("#pulsante-luogo").textContent = stato.posizione ? `📍 ${stato.posizione.nome}` : "Scegli dove sei";
-  $("#pulsante-raggio").textContent = `entro ${stato.raggio[stato.carb]} km`;
+  $("#pulsante-raggio").innerHTML = `entro ${stato.raggio[stato.carb]} km <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>`;
 }
 
 function mostraVista(vista) {
@@ -580,7 +596,7 @@ async function avvio() {
   document.querySelectorAll(".scheda").forEach((b) => { b.onclick = () => mostraVista(b.dataset.vista); });
   $("#pulsante-auto").onclick = apriAuto;
   $("#pulsante-luogo").onclick = apriRicercaComune;
-  $("#pulsante-raggio").onclick = () => impostaRaggio(RAGGI[(RAGGI.indexOf(stato.raggio[stato.carb]) + 1) % RAGGI.length] ?? 10);
+  $("#pulsante-raggio").onclick = apriRaggio;
   $("#foglio-sfondo").onclick = chiudiFoglio;
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") chiudiFoglio(); });
   aggiornaTestata();

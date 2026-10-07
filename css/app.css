@@ -62,7 +62,10 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .barra-carburanti { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
 .barra-carburanti::-webkit-scrollbar { display: none; }
 .riga-luogo { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 13px; color: var(--testo-2); }
-.luogo, .raggio { color: var(--testo-2); font-size: 13px; text-decoration: underline; text-decoration-color: var(--bordo-forte); text-underline-offset: 3px; }
+.luogo { color: var(--testo-2); font-size: 13px; text-decoration: underline; text-decoration-color: var(--bordo-forte); text-underline-offset: 3px; }
+.raggio { display: inline-flex; align-items: center; gap: 4px; border: 1px solid var(--bordo-forte); border-radius: 999px; padding: 4px 8px 4px 11px; font-size: 13px; color: var(--testo); }
+.raggio svg { width: 14px; height: 14px; color: var(--testo-2); }
+.voce-auto .spunta { font-size: 16px; color: var(--accento); }
 
 /* lista */
 .vista { padding: 6px var(--margine-dx) 18px var(--margine-sx); }
@@ -105,7 +108,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .leaflet-container { background: var(--sfondo-2); font: inherit; }
 .punto-mappa { overflow: visible; }
 .punto-mappa .etichetta-mappa { position: absolute; transform: translate(-50%, -50%); }
-.leaflet-tile-pane { filter: grayscale(1) contrast(0.9) brightness(1.05); }
+.leaflet-tile-pane { filter: saturate(0.45) contrast(0.92) brightness(1.04); }
 @media (prefers-color-scheme: dark) { .leaflet-tile-pane { filter: grayscale(1) invert(1) brightness(0.85) contrast(0.9); } }
 
 /* schede in basso */
