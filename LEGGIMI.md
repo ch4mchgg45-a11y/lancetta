@@ -25,7 +25,9 @@ Ministero (MIMIT, open data "Osservaprezzi carburanti").
 
 `scripts/aggiorna_dati.py` scarica i due file del Ministero e prepara la
 cartella `data/`. Gira **da solo ogni mattina** su GitHub
-(`.github/workflows/aggiorna-dati.yml`, alle ~9:30 e ~12:00 ora italiana).
+(`.github/workflows/aggiorna-e-pubblica.yml`, alle ~9:30 e ~12:00 ora italiana),
+e nello stesso giro ripubblica il sito. Ogni modifica al codice viene
+ripubblicata subito.
 
 Cose importanti verificate sui dati reali (30/09/2026):
 - Il file pubblicato ogni mattina (~8:45) contiene i prezzi **in vigore alle
