@@ -14,6 +14,10 @@
   --accento: #1a6dd1;
   --raggio: 14px;
   --sicuro-basso: env(safe-area-inset-bottom, 0px);
+  /* spazio ai lati: piu' largo dei classici 16px, e mai sotto le zone
+     curve/tacche dello schermo (telefono in orizzontale) */
+  --margine-sx: max(22px, env(safe-area-inset-left, 0px));
+  --margine-dx: max(22px, env(safe-area-inset-right, 0px));
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
@@ -48,7 +52,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 [hidden] { display: none !important; }
 
 /* testata */
-.testata { position: sticky; top: 0; z-index: 500; background: var(--sfondo); padding: 12px 16px 8px; padding-top: max(12px, env(safe-area-inset-top)); }
+.testata { position: sticky; top: 0; z-index: 500; background: var(--sfondo); padding: 14px var(--margine-dx) 10px var(--margine-sx); padding-top: max(14px, env(safe-area-inset-top)); }
 .riga-titolo { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .logo { font-size: 20px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
 .chip { border: 1px solid var(--bordo-forte); border-radius: 999px; padding: 6px 13px; font-size: 14px; white-space: nowrap; }
@@ -61,14 +65,14 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .luogo, .raggio { color: var(--testo-2); font-size: 13px; text-decoration: underline; text-decoration-color: var(--bordo-forte); text-underline-offset: 3px; }
 
 /* lista */
-.vista { padding: 4px 16px 16px; }
-.migliore { background: var(--verde-sfondo); color: var(--verde-testo); border-radius: var(--raggio); padding: 14px 16px; margin: 6px 0 10px; width: 100%; text-align: left; display: block; }
+.vista { padding: 6px var(--margine-dx) 18px var(--margine-sx); }
+.migliore { background: var(--verde-sfondo); color: var(--verde-testo); border-radius: var(--raggio); padding: 16px 18px; margin: 6px 0 12px; width: 100%; text-align: left; display: block; }
 .migliore .etichetta { font-size: 13px; }
 .migliore .prezzo-grande { font-size: 34px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.15; }
 .migliore .riga { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .migliore .risparmio-litro { font-size: 17px; font-weight: 600; }
 .migliore .dettaglio { font-size: 13px; }
-.voce { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-top: 1px solid var(--bordo); width: 100%; text-align: left; }
+.voce { display: flex; align-items: center; gap: 14px; padding: 13px 4px; border-top: 1px solid var(--bordo); width: 100%; text-align: left; }
 .voce:first-of-type { border-top: 0; }
 .voce .info { flex: 1; min-width: 0; }
 .voce .nome { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -82,7 +86,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .vecchio { color: var(--testo-3); }
 .sale { color: var(--rosso-testo); }
 .scende { color: var(--verde-testo); }
-.spazio-pubblicita { border: 1px dashed var(--bordo-forte); border-radius: 10px; padding: 10px 12px; margin: 8px 0; font-size: 13px; color: var(--testo-2); display: block; text-decoration: none; }
+.spazio-pubblicita { border: 1px dashed var(--bordo-forte); border-radius: 10px; padding: 11px 14px; margin: 10px 0; font-size: 13px; color: var(--testo-2); display: block; text-decoration: none; }
 .spazio-pubblicita .tipo { font-size: 11px; color: var(--testo-3); text-transform: none; }
 .spazio-pubblicita .testo { color: var(--testo); }
 .vuoto { text-align: center; color: var(--testo-2); padding: 40px 12px; }
@@ -112,12 +116,12 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 /* foglio (pannello che sale dal basso) */
 .foglio-sfondo { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.35); z-index: 900; }
-.foglio { position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000; background: var(--sfondo); border-radius: 20px 20px 0 0; padding: 10px 18px calc(18px + var(--sicuro-basso)); max-height: 88vh; overflow-y: auto; max-width: 560px; margin: 0 auto; }
+.foglio { position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000; background: var(--sfondo); border-radius: 20px 20px 0 0; padding: 10px var(--margine-dx) calc(20px + var(--sicuro-basso)) var(--margine-sx); max-height: 88vh; overflow-y: auto; max-width: 560px; margin: 0 auto; }
 .maniglia { width: 40px; height: 5px; border-radius: 3px; background: var(--bordo-forte); margin: 0 auto 12px; }
 .foglio h2 { font-size: 20px; margin: 0 0 2px; font-weight: 600; }
 .foglio .indirizzo { font-size: 13px; color: var(--testo-2); margin-bottom: 10px; }
 .tabella-prezzi { width: 100%; border-collapse: collapse; font-size: 15px; }
-.tabella-prezzi td { padding: 9px 0; border-top: 1px solid var(--bordo); }
+.tabella-prezzi td { padding: 10px 4px; border-top: 1px solid var(--bordo); }
 .tabella-prezzi td:last-child { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
 .tabella-prezzi .servito { font-weight: 400; color: var(--testo-3); font-size: 12.5px; display: block; }
 .riga-azioni { display: flex; gap: 8px; }
@@ -130,6 +134,6 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .voce-auto.scelta { border: 2px solid var(--accento); }
 .voce-auto .info { flex: 1; }
 .voce-auto .sotto { font-size: 12.5px; color: var(--testo-2); }
-.risultato-comune { display: block; width: 100%; text-align: left; padding: 10px 0; border-top: 1px solid var(--bordo); }
+.risultato-comune { display: block; width: 100%; text-align: left; padding: 11px 4px; border-top: 1px solid var(--bordo); }
 .stella { font-size: 22px; line-height: 1; padding: 4px; color: var(--testo-3); }
 .stella.attiva { color: #d9a400; }

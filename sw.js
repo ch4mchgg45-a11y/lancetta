@@ -1,6 +1,6 @@
 // Service worker: l'app si apre anche con poca rete. I dati (prezzi)
 // vengono sempre chiesti prima alla rete, e solo se manca si usa l'ultima copia.
-const VERSIONE = "lancetta-v1";
+const VERSIONE = "lancetta-v2";
 const GUSCIO = ["./", "index.html", "css/app.css", "js/app.js", "manifest.webmanifest", "icons/icona.svg", "icons/icona-192.png"];
 
 self.addEventListener("install", (e) => {
